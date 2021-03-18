@@ -72,7 +72,7 @@ function tokenize(str) {
 				result.push({ kind: "empty", value: c() });
 				++i;
 				break;
-			case '{': case '}': case ';': case ':':
+			case '{': case '}': case ';': case ':': case ',':
 				result.push({ kind: "control", value: c() });
 				++i;
 				break;
