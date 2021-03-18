@@ -19,3 +19,10 @@ code {
 	white-space: pre;
 	line-height: 16pt;
 }
+
+.hl-keyword { color: #ff4cf3; }
+.hl-preprocessor { color: #dab98f; }
+.hl-operator { color: #dc7575; }
+.hl-type { color: #00dd7a; }
+.hl-string { color: #e2e276; }
+.hl-number { color: #ffb165; }

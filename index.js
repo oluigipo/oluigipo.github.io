@@ -9,7 +9,7 @@ window.onload = function() {
 	for (let i = 0; i < elements.length; ++i) {
 		const el = elements.item(i);
 
-		el.innerText = codes[i];
+		el.innerHTML = highlight.c(codes[i]);
 		el.style.tabSize = 4;
 	}
-}
+};
