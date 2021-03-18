@@ -1,4 +1,12 @@
 /**
+	@param str {string}
+	@returns {string}
+*/
+function giveABath(str) {
+	return str.replace(/\</g, '&lt;').replace(/\>/g, '&gt;');
+}
+
+/**
 	@param c {string}
 	@returns {boolean}
 */
@@ -88,7 +96,10 @@ const highlight = {
 			"long", "short", "register", "return", "sizeof",
 			"struct", "switch", "typedef", "union", "_Alignas",
 			"_Alignof", "_Atomic", "_Bool", "_Complex", "Generic",
-			"_Imaginary", "Noreturn", "_Static_assert", "_Thread_local"
+			"_Imaginary", "Noreturn", "_Static_assert", "_Thread_local",
+
+			// my things
+			"internal", "global"
 		];
 
 		const types = [
@@ -101,7 +112,7 @@ const highlight = {
 		];
 
 		const funcs = [
-			"printf", "getchar"
+			//"printf", "getchar"
 		];
 
 		let scopeCount = 0;
@@ -115,7 +126,7 @@ const highlight = {
 				const token = tokens[i];
 
 				function withTag(clazz) {
-					return `<span class="${clazz}">${token.value}</span>`;
+					return `<span class="${clazz}">${giveABath(token.value)}</span>`;
 				}
 
 				switch (token.kind) {
@@ -132,7 +143,7 @@ const highlight = {
 						tokens[i] = token.value;
 					} break;
 					case "ident": {
-						if (scopeCount == 0 && tokens[i+1].value == '(')
+						if (tokens[i+1]?.value == '(')
 							funcs.push(token.value);
 
 						if (keywords.includes(token.value))
@@ -156,7 +167,7 @@ const highlight = {
 		for (let i = 0; i < lines.length; ++i) {
 			let line = lines[i];
 			if (line[0] == '#') {
-				line = line.replace(/\</g, '&lt;').replace(/\>/g, '&gt;');
+				line = giveABath(line);
 				result += `<span class="hl-preprocessor">${line}</span>\n`;
 				continue;
 			}
