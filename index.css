@@ -15,8 +15,9 @@ body {
 }
 
 .mihhh {
+	position: absolute;
 	margin-left: 5%;
-	width: 40%;
+	width: 35%;
 	height: auto;
 }
 
