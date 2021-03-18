@@ -101,40 +101,53 @@ const highlight = {
 		];
 
 		const funcs = [
-			"printf"
+			"printf", "getchar"
 		];
+
+		let scopeCount = 0;
 
 		function normalHighlight(line) {
 			if (line == "")
 				return line;
 
-			return tokenize(line).map(token => {
+			let tokens = tokenize(line);
+			for (let i = 0; i < tokens.length; ++i) {
+				const token = tokens[i];
+
 				function withTag(clazz) {
 					return `<span class="${clazz}">${token.value}</span>`;
 				}
 
 				switch (token.kind) {
-					case "number": return withTag("hl-number");
-					case "string": return withTag("hl-string");
-					case "empty": return token.value;
-					case "operator": return withTag("hl-operator");
-					case "comment": return withTag("hl-comment");
+					case "number": tokens[i] = withTag("hl-number"); break;
+					case "string": tokens[i] = withTag("hl-string"); break;
+					case "operator": tokens[i] = withTag("hl-operator"); break;
+					case "comment": tokens[i] = withTag("hl-comment"); break;
+					case "empty": {
+						if (token.value == '{')
+							++scopeCount;
+						else if (token.value == '}')
+							--scopeCount;
+
+						tokens[i] = token.value;
+					} break;
 					case "ident": {
+						if (scopeCount == 0 && tokens[i+1].value == '(')
+							funcs.push(token.value);
+
 						if (keywords.includes(token.value))
-							return withTag("hl-keyword");
-
-						if (types.includes(token.value))
-							return withTag("hl-type");
-
-						if (funcs.includes(token.value))
-							return withTag("hl-func");
-
-						return token.value;
-					}
+							tokens[i] = withTag("hl-keyword");
+						else if (types.includes(token.value))
+							tokens[i] = withTag("hl-type");
+						else if (funcs.includes(token.value))
+							tokens[i] = withTag("hl-func");
+						else tokens[i] = token.value;
+					} break;
+					default: tokens[i] = token.value; break; 
 				}
+			}
 
-				return token.value;
-			}).join('');
+			return tokens.join('');
 		}
 
 		let result = "";
