@@ -39,17 +39,19 @@ function tokenize(str) {
 		if (charIsNumber(c())) {
 			const begin = i;
 
-			while (++i, c() == 'x' || c() == 'b' || charIsNumber(c()));
+			while (++i, c() == 'x' || c() == 'b' || c().toLowerCase() == 'f' || charIsNumber(c()));
 
 			result.push({ kind: "number", value: str.slice(begin, i) });
 		}
 
-		if (c() == '"') {
+		if (c() == '"' || c() == '\'') {
 			const begin = i;
+			const close = c();
 
-			while (++i, c() != '"');
+			while (++i, c() != close);
 			++i;
 			result.push({ kind: "string", value: str.slice(begin, i) });
+			continue;
 		}
 
 		if (c() == '/' && c(1) == '/') {
@@ -103,6 +105,9 @@ const highlight = {
 		];
 
 		function normalHighlight(line) {
+			if (line == "")
+				return line;
+
 			return tokenize(line).map(token => {
 				function withTag(clazz) {
 					return `<span class="${clazz}">${token.value}</span>`;
@@ -132,14 +137,13 @@ const highlight = {
 			}).join('');
 		}
 
-		str = str.replace(/\</g, '&lt;').replace(/\>/, '&gt;');
-
 		let result = "";
 
 		const lines = str.split('\n');
 		for (let i = 0; i < lines.length; ++i) {
-			const line = lines[i];
+			let line = lines[i];
 			if (line[0] == '#') {
+				line = line.replace(/\</g, '&lt;').replace(/\>/g, '&gt;');
 				result += `<span class="hl-preprocessor">${line}</span>\n`;
 				continue;
 			}
