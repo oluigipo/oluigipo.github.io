@@ -68,8 +68,12 @@ function tokenize(str) {
 		}
 
 		switch (c()) {
-			case ' ': case '\t': case '{': case '}': case ';': case ':':
+			case ' ': case '\t':
 				result.push({ kind: "empty", value: c() });
+				++i;
+				break;
+			case '{': case '}': case ';': case ':':
+				result.push({ kind: "control", value: c() });
 				++i;
 				break;
 			default:
@@ -115,13 +119,20 @@ const highlight = {
 			//"printf", "getchar"
 		];
 
+		const constants = [
+			"NULL", "true", "false"
+		];
+
 		let scopeCount = 0;
+		let enumDecl = false;
 
 		function normalHighlight(line) {
 			if (line == "")
 				return line;
 
 			let tokens = tokenize(line);
+			let result = [];
+
 			for (let i = 0; i < tokens.length; ++i) {
 				const token = tokens[i];
 
@@ -129,36 +140,71 @@ const highlight = {
 					return `<span class="${clazz}">${giveABath(token.value)}</span>`;
 				}
 
+				function previousRelevant() {
+					for (let j = i-1; j >= 0; --j) {
+						if (tokens[j].kind != "empty")
+							return tokens[j];
+					}
+
+					return undefined;
+				}
+
+				function nextRelevant() {
+					for (let j = i+1; j <= tokens.length; ++j) {
+						if (tokens[j].kind != "empty")
+							return tokens[j];
+					}
+
+					return undefined;
+				}
+
 				switch (token.kind) {
-					case "number": tokens[i] = withTag("hl-number"); break;
-					case "string": tokens[i] = withTag("hl-string"); break;
-					case "operator": tokens[i] = withTag("hl-operator"); break;
-					case "comment": tokens[i] = withTag("hl-comment"); break;
-					case "empty": {
+					case "number": result[i] = withTag("hl-number"); break;
+					case "string": result[i] = withTag("hl-string"); break;
+					case "operator": result[i] = withTag("hl-operator"); break;
+					case "comment": result[i] = withTag("hl-comment"); break;
+					case "empty": result[i] = token.value; break;
+					case "control": {
+						result[i] = token.value;
+
 						if (token.value == '{')
 							++scopeCount;
-						else if (token.value == '}')
+						else if (token.value == '}') {
 							--scopeCount;
-
-						tokens[i] = token.value;
+							enumDecl = false;
+						}
 					} break;
 					case "ident": {
+						let previous = previousRelevant()?.value;
+
+						if (["struct", "union", "enum"].includes(previous)) {
+							types.push(token.value);
+
+							if (previous == "enum" && nextRelevant()?.value == '{')
+								enumDecl = true;
+						} else if (enumDecl)
+							constants.push(token.value);
+
 						if (tokens[i+1]?.value == '(')
 							funcs.push(token.value);
 
 						if (keywords.includes(token.value))
-							tokens[i] = withTag("hl-keyword");
+							result[i] = withTag("hl-keyword");
 						else if (types.includes(token.value))
-							tokens[i] = withTag("hl-type");
+							result[i] = withTag("hl-type");
 						else if (funcs.includes(token.value))
-							tokens[i] = withTag("hl-func");
-						else tokens[i] = token.value;
+							result[i] = withTag("hl-func");
+						else if (constants.includes(token.value))
+							result[i] = withTag("hl-number");
+						else {
+							result[i] = token.value;
+						}
 					} break;
-					default: tokens[i] = token.value; break; 
+					default: result[i] = token.value; break; 
 				}
 			}
 
-			return tokens.join('');
+			return result.join('');
 		}
 
 		let result = "";
