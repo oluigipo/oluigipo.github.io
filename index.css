@@ -1,0 +1,21 @@
+body {
+	margin-left: 10%;
+	background-color: rgb(24,24,24);
+	color: rgb(255,255,255);
+	font-family: Verdana, sans-serif;
+}
+
+h1 {
+	/*text-align: center;*/
+}
+
+code {
+	background-color: rgb(10,10,10);
+	font-family: "Lucida Console", monospace;
+	border-radius: 10px;
+	border: 0px;
+	padding: 20px;
+	display: inline-block;
+	white-space: pre;
+	line-height: 16pt;
+}
