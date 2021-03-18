@@ -10,7 +10,14 @@ body {
 };
 
 .rightside {
+	margin-left: 5%;
 	float: right;
+}
+
+.mihhh {
+	margin-left: 5%;
+	width: 40%;
+	height: auto;
 }
 
 h1 {
@@ -36,4 +43,4 @@ code {
 .hl-string { color: #e2e276; }
 .hl-number { color: #ffb165; }
 .hl-func { color: #00D2DD; }
-.hl-comment { color: #7D7D7D;  }
+.hl-comment { color: #7D7D7D; }
