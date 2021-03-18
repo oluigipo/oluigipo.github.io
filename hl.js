@@ -23,7 +23,9 @@ function tokenize(str) {
 
 	let i = 0;
 	do {
-		const c = () => str[i] || '\0';
+		function c(n = 0) {
+			return str[i+n] || '\0';
+		}
 
 		if (charIsLetter(c())) {
 			const begin = i;
@@ -46,11 +48,17 @@ function tokenize(str) {
 			const begin = i;
 
 			while (++i, c() != '"');
+			++i;
 			result.push({ kind: "string", value: str.slice(begin, i) });
 		}
 
+		if (c() == '/' && c(1) == '/') {
+			result.push({ kind: "comment", value: str.slice(i) });
+			break;
+		}
+
 		switch (c()) {
-			case ' ': case '\t':
+			case ' ': case '\t': case '{': case '}': case ';': case ':':
 				result.push({ kind: "empty", value: c() });
 				++i;
 				break;
@@ -72,32 +80,52 @@ const highlight = {
 	c: function(str) {
 		const keywords = [
 			"if", "while", "do", "return", "for", "static", "extern",
-			"const", "restrict", "unsigned", "signed"
+			"const", "restrict", "unsigned", "signed", "auto",
+			"break", "case", "continue", "default", "else",
+			"enum", "extern", "fortran", "goto", "inline",
+			"long", "short", "register", "return", "sizeof",
+			"struct", "switch", "typedef", "union", "_Alignas",
+			"_Alignof", "_Atomic", "_Bool", "_Complex", "Generic",
+			"_Imaginary", "Noreturn", "_Static_assert", "_Thread_local"
 		];
 
 		const types = [
 			"int", "uint", "char",
 			"u8", "u16", "u32", "u64",
-			"i8", "i16", "i32", "i64"
+			"i8", "i16", "i32", "i64",
+			"b8", "b16", "b32", "b64",
+			"float", "f32", "double", "f64",
+			"char", "void", "bool"
+		];
+
+		const funcs = [
+			"printf"
 		];
 
 		function normalHighlight(line) {
 			return tokenize(line).map(token => {
+				function withTag(clazz) {
+					return `<span class="${clazz}">${token.value}</span>`;
+				}
+
 				switch (token.kind) {
-					case "number":
-						return `<span class="hl-number">${token.value}</span>`;
-					case "ident":
+					case "number": return withTag("hl-number");
+					case "string": return withTag("hl-string");
+					case "empty": return token.value;
+					case "operator": return withTag("hl-operator");
+					case "comment": return withTag("hl-comment");
+					case "ident": {
 						if (keywords.includes(token.value))
-							return `<span class="hl-keyword">${token.value}</span>`;
+							return withTag("hl-keyword");
+
 						if (types.includes(token.value))
-							return `<span class="hl-type">${token.value}</span>`;
+							return withTag("hl-type");
+
+						if (funcs.includes(token.value))
+							return withTag("hl-func");
+
 						return token.value;
-					case "string":
-						return `<span class="hl-string">${token.value}</span>`;
-					case "empty":
-						return token.value;
-					case "operator":
-						return `<span class="hl-operator">${token.value}</span>`;
+					}
 				}
 
 				return token.value;
