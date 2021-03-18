@@ -11,7 +11,7 @@ function requestFile(url) {
 const codes = {
 	hello_world:
 `#include <stdio.h>
-#include <bool.h>
+#include <stdbool.h>
 
 enum TestKind { TESTKIND_A, TESTKIND_B, TESTKIND_C };
 union TestFields {
