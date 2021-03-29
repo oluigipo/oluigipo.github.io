@@ -22,76 +22,75 @@ function charIsNumber(c) {
 	return (c.charCodeAt(0) >= 48 && c.charCodeAt(0) <= 57)
 }
 
-/**
-	@param str {string}
-	@returns {{kind:string,value:string}[]}
-*/
-function tokenize(str) {
-	let result = [];
-
-	let i = 0;
-	do {
-		function c(n = 0) {
-			return str[i+n] || '\0';
-		}
-
-		if (charIsLetter(c())) {
-			const begin = i;
-
-			while (++i, charIsLetter(c()) || charIsNumber(c()));
-
-			result.push({ kind: "ident", value: str.slice(begin, i) });
-			continue;
-		}
-
-		if (charIsNumber(c())) {
-			const begin = i;
-
-			while (++i, c() == 'x' || c() == 'b' || c().toLowerCase() == 'f' || charIsNumber(c()));
-
-			result.push({ kind: "number", value: str.slice(begin, i) });
-		}
-
-		if (c() == '"' || c() == '\'') {
-			const begin = i;
-			const close = c();
-
-			while (++i, c() != close);
-			++i;
-			result.push({ kind: "string", value: str.slice(begin, i) });
-			continue;
-		}
-
-		if (c() == '/' && c(1) == '/') {
-			result.push({ kind: "comment", value: str.slice(i) });
-			break;
-		}
-
-		switch (c()) {
-			case ' ': case '\t':
-				result.push({ kind: "empty", value: c() });
-				++i;
-				break;
-			case '{': case '}': case ';': case ':': case ',':
-				result.push({ kind: "control", value: c() });
-				++i;
-				break;
-			default:
-				result.push({ kind: "operator", value: c() });
-				++i;
-				break;
-		}
-	} while (i < str.length);
-
-	return result;
-}
-
-
 const highlight = {
 	/**
 		@param str {string}
 	*/
 	c: function(str) {
+		/**
+			@param str {string}
+			@returns {{kind:string,value:string}[]}
+		*/
+		function tokenize(str) {
+			let result = [];
+
+			let i = 0;
+			do {
+				function c(n = 0) {
+					return str[i+n] || '\0';
+				}
+
+				if (charIsLetter(c())) {
+					const begin = i;
+
+					while (++i, charIsLetter(c()) || charIsNumber(c()));
+
+					result.push({ kind: "ident", value: str.slice(begin, i) });
+					continue;
+				}
+
+				if (charIsNumber(c())) {
+					const begin = i;
+
+					while (++i, c() == 'x' || c() == 'b' || c().toLowerCase() == 'f' || charIsNumber(c()));
+
+					result.push({ kind: "number", value: str.slice(begin, i) });
+				}
+
+				if (c() == '"' || c() == '\'') {
+					const begin = i;
+					const close = c();
+
+					while (++i, c() != close);
+					++i;
+					result.push({ kind: "string", value: str.slice(begin, i) });
+					continue;
+				}
+
+				if (c() == '/' && c(1) == '/') {
+					result.push({ kind: "comment", value: str.slice(i) });
+					break;
+				}
+
+				switch (c()) {
+					case ' ': case '\t':
+						result.push({ kind: "empty", value: c() });
+						++i;
+						break;
+					case '{': case '}': case ';': case ':': case ',':
+						result.push({ kind: "control", value: c() });
+						++i;
+						break;
+					default:
+						result.push({ kind: "operator", value: c() });
+						++i;
+						break;
+				}
+			} while (i < str.length);
+
+			return result;
+		}
+
 		const keywords = [
 			"if", "while", "do", "return", "for", "static", "extern",
 			"const", "restrict", "unsigned", "signed", "auto",
@@ -116,6 +115,7 @@ const highlight = {
 		];
 
 		const funcs = [
+			// All the functions are going to be detected automatically.
 			//"printf", "getchar"
 		];
 

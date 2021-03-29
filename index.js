@@ -47,4 +47,7 @@ window.onload = function() {
 		el.innerHTML = highlight[el.className.replace("lang-", '')](codes[el.innerText]);
 		el.style.tabSize = 4;
 	}
+
+	aNekos[0].homeX = innerWidth/2;
+	aNekos[0].homeY = 150;
 };
