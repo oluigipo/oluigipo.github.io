@@ -1,0 +1,42 @@
+body {
+	background-color: rgb(24,24,24);
+	color: rgb(255,255,255);
+	font-family: Verdana, sans-serif;
+	
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
+}
+
+.column {
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
+}
+
+div {
+	text-align: left;
+}
+
+code {
+	background-color: rgb(10,10,10);
+	font-family: "Lucida Console", monospace;
+	border-radius: 10px;
+	border: 0px;
+	padding: 20px;
+	display: inline-block;
+	white-space: pre;
+	line-height: 16pt;
+	color: #cccccc;
+	text-align: left;
+	tab-size: 4;
+}
+
+.hl-keyword { color: #ff4cf3; }
+.hl-preprocessor { color: #dab98f; }
+.hl-operator { color: #dc7575; }
+.hl-type { color: #00dd7a; }
+.hl-string { color: #e2e276; }
+.hl-number { color: #ffb165; }
+.hl-func { color: #00D2DD; }
+.hl-comment { color: #7D7D7D; }
