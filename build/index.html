@@ -16,8 +16,8 @@ height: auto;
 <body>
 <div class="column">
 <h1>welcome</h1>
-<p>Hey, hello! I'm Lujaire and I like to program.</p>
-<code class="lang-c"><span class="hl-preprocessor">#include &lt;stdio.h&gt;</span>
+<p>Hey, hello! I'm Lujaire and I like to program. You can access my "blog" <a href="/blog">here</a>.</p>
+<code class="lang-c"><code class="codeblock"><span class="hl-preprocessor">#include &lt;stdio.h&gt;</span>
 <span class="hl-preprocessor">#include &lt;stdbool.h&gt;</span>
 
 <span class="hl-keyword">enum</span> <span class="hl-type">TestKind</span> { <span class="hl-number">TESTKIND_A</span>, <span class="hl-number">TESTKIND_B</span>, <span class="hl-number">TESTKIND_C</span> };
@@ -42,15 +42,15 @@ height: auto;
 	};
 
 	<span class="hl-keyword">return</span> <span class="hl-number">0</span>;
-}</code>
+}</code></code>
 <p>idk what else to put here, so stay with my recursive-descent parser:</p>
-<code class="lang-c"><span class="hl-comment">// Top-level declarations</span>
+<code class="lang-c"><code class="codeblock"><span class="hl-comment">// Top-level declarations</span>
 <span class="hl-keyword">static</span> <span class="hl-keyword">double</span> <span class="hl-func">parse_add</span>(<span class="hl-keyword">void</span>);
 <span class="hl-keyword">static</span> <span class="hl-keyword">const</span> <span class="hl-keyword">char</span><span class="hl-operator">*</span> state;
 
 <span class="hl-comment">// Checks if state is a valid digit</span>
 <span class="hl-keyword">static</span> <span class="hl-keyword">int</span> <span class="hl-func">is_digit</span>(<span class="hl-keyword">void</span>) {
-	<span class="hl-keyword">return</span> <span class="hl-operator">*</span>state <span class="hl-operator">&gt;</span><span class="hl-operator">=</span> <span class="hl-string">'0'</span> <span class="hl-operator">&</span><span class="hl-operator">&</span> <span class="hl-operator">*</span>state <span class="hl-operator">&lt;</span><span class="hl-operator">=</span> <span class="hl-string">'9'</span>;
+	<span class="hl-keyword">return</span> <span class="hl-operator">*</span>state <span class="hl-operator">&</span>gt;<span class="hl-operator">=</span> <span class="hl-string">'0'</span> <span class="hl-operator">&</span>amp;<span class="hl-operator">&</span>amp; <span class="hl-operator">*</span>state <span class="hl-operator">&</span>lt;<span class="hl-operator">=</span> <span class="hl-string">'9'</span>;
 }
 
 <span class="hl-comment">// Get the digit value of state</span>
@@ -163,16 +163,16 @@ height: auto;
 
 	buffer[length] <span class="hl-operator">=</span> <span class="hl-number">0</span>;
 
-	<span class="hl-keyword">if</span> (length <span class="hl-operator">&gt;</span> <span class="hl-number">0</span>)
+	<span class="hl-keyword">if</span> (length <span class="hl-operator">&</span>gt; <span class="hl-number">0</span>)
 		<span class="hl-func">printf</span>(<span class="hl-string">"%f\n"</span>, <span class="hl-func">eval</span>(buffer));
 
 	<span class="hl-keyword">return</span> length;
 }
 
 <span class="hl-keyword">int</span> <span class="hl-func">main</span>() {
-	<span class="hl-keyword">while</span> (<span class="hl-func">eval_line</span>() <span class="hl-operator">&gt;</span> <span class="hl-number">0</span>);
+	<span class="hl-keyword">while</span> (<span class="hl-func">eval_line</span>() <span class="hl-operator">&</span>gt; <span class="hl-number">0</span>);
 	<span class="hl-keyword">return</span> <span class="hl-number">0</span>;
-}</code>
+}</code></code>
 </div>
 <div class="column">
 <p>here is my cat, her name is Mih!</p>

@@ -8,17 +8,27 @@ body {
 	flex-direction: row;
 }
 
-.column {
-	display: flex;
-	flex-direction: column;
-	padding: 20px;
-}
-
 div {
 	text-align: left;
 }
 
-code {
+p {
+	line-height: 18pt;
+	margin-top: 0px;
+}
+
+ul {
+	padding-inline-start: 20px;
+	margin: 0px;
+	margin-bottom: 20px;
+}
+
+li {
+	padding: 5px;
+	line-height: 18pt;
+}
+
+.codeblock {
 	background-color: rgb(10,10,10);
 	font-family: "Lucida Console", monospace;
 	border-radius: 10px;
@@ -30,6 +40,35 @@ code {
 	color: #cccccc;
 	text-align: left;
 	tab-size: 4;
+	margin-bottom: 16px;
+}
+
+.inlinecode {
+	padding: 2px;
+	padding-bottom: 0px;
+	line-height: auto;
+	border-radius: 4px;
+	display: inline-block;
+	white-space: pre;
+	color: #cccccc;
+	text-align: left;
+	tab-size: 4;
+	background-color: rgb(10,10,10);
+	font-family: "Lucida Console", monospace;
+	line-height: 16pt;
+}
+
+.column {
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
+	width: 50%;
+}
+
+.blogindex {
+	background-color: rgb(10,10,10);
+	border-radius: 10px;
+	padding: 5px;
 }
 
 .hl-keyword { color: #ff4cf3; }

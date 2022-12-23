@@ -1,1 +1,1 @@
-@deno run --allow-read=. --allow-write=build --allow-net --allow-run build.ts
+@deno run --allow-read=. --allow-write=. --allow-net --allow-run build.ts
