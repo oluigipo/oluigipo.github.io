@@ -13,7 +13,7 @@ const blogBaseHtml =
 <!-- I'm not hiring if that's what you are looking for. -->
 
 <head>
-	<title>lujaire</title>
+	<title>%TITLE%</title>
 	<meta charset="UTF-8"/>
 	<link rel="shortcut icon" type="image/png" href="/favicon.ico">
 	<link rel="stylesheet" href="/index.css">
@@ -24,7 +24,7 @@ const blogBaseHtml =
 <body>
 	<div class="column">
 		<p><a href="/blog">&lt; Back</a></p>
-%%%
+%CONTENT%
 	</div>
 </body>
 `;
@@ -49,7 +49,7 @@ for (const filename of Object.keys(htmls)) {
 
 // NOTE(ljre): Write blog entries
 for (const entry of blogIndex) {
-	const finalContents = blogBaseHtml.replace("%%%", entry.content);
+	const finalContents = blogBaseHtml.replace("%TITLE%", entry.title).replace("%CONTENT%", entry.content);
 	writeFile(outputDir + entry.file, finalContents);
 }
 
@@ -331,12 +331,37 @@ function parseBlogEntry(rawContent: string, baseName: string): Blog {
 function processSimpleParagraph(str: string): string {
 	let result = sanitizeRawTextForHtml(str);
 	
+	const italicRegex = /\*(\\\*|[^\*])+\*/g;
+	const inlinecodeRegex = /`((\\`)|[^`])+`/g;
+	const inlineurlRegex = /\[((?:[^\]]+))\]\(((?:[^\)]+))\)/g;
+	
 	let match: MatchResult | null;
 	let hadAnyMatch = false;
 	
-	while (match = /`((\\`)|[^`])+`/g.exec(result)) {
+	while (match = italicRegex.exec(result)) {
+		const rawMatch = match[0];
+		if (rawMatch.match(/[^\\]\`/g))
+			continue;
+		
+		const replacement = "<i>" + rawMatch.slice(1, rawMatch.length-1) + "</i>";
+		
+		result = result.replace(rawMatch, replacement);
+		hadAnyMatch = true;
+	}
+	
+	while (match = inlinecodeRegex.exec(result)) {
 		const rawMatch = match[0];
 		const replacement = "<code class=\"inlinecode\">" + rawMatch.slice(1, rawMatch.length-1) + "</code>";
+		
+		result = result.replace(rawMatch, replacement);
+		hadAnyMatch = true;
+	}
+	
+	while (match = inlineurlRegex.exec(result)) {
+		const rawMatch = match[0];
+		const text = match[1];
+		const url = match[2];
+		const replacement = `<a href="${url}">` + text + "</a>";
 		
 		result = result.replace(rawMatch, replacement);
 		hadAnyMatch = true;
