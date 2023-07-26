@@ -15,34 +15,8 @@ height: auto;
 </head>
 <body>
 <div class="column">
-<h1>welcome</h1>
-<p>Hey, hello! I'm Lujaire and I like to program. You can access my "blog" <a href="/blog">here</a>.</p>
-<code class="lang-c"><code class="codeblock"><span class="hl-preprocessor">#include &lt;stdio.h&gt;</span>
-<span class="hl-preprocessor">#include &lt;stdbool.h&gt;</span>
-
-<span class="hl-keyword">enum</span> <span class="hl-type">TestKind</span> { <span class="hl-number">TESTKIND_A</span>, <span class="hl-number">TESTKIND_B</span>, <span class="hl-number">TESTKIND_C</span> };
-<span class="hl-keyword">union</span> <span class="hl-type">TestFields</span> {
-	<span class="hl-keyword">int</span> field_a;
-	<span class="hl-type">float32</span> field_b;
-	<span class="hl-type">uint64</span> field_c;
-};
-<span class="hl-keyword">struct</span> <span class="hl-type">Test</span> {
-	<span class="hl-keyword">enum</span> <span class="hl-type">TestKind</span> kind;
-	<span class="hl-keyword">union</span> <span class="hl-type">TestFields</span> fields;
-};
-
-<span class="hl-keyword">int</span> <span class="hl-func">main</span>() {
-	<span class="hl-func">printf</span>(<span class="hl-string">"Hello, World!\n"</span>);
-
-	<span class="hl-keyword">struct</span> <span class="hl-type">Test</span> my_test <span class="hl-operator">=</span> {
-		<span class="hl-operator">.</span>kind <span class="hl-operator">=</span> <span class="hl-number">TESTKIND_C</span>,
-		<span class="hl-operator">.</span>fields <span class="hl-operator">=</span> {
-			<span class="hl-operator">.</span>field_c <span class="hl-operator">=</span> <span class="hl-number">true</span>
-		}
-	};
-
-	<span class="hl-keyword">return</span> <span class="hl-number">0</span>;
-}</code></code>
+<h1>hello</h1>
+<p>This is my website. I don't know how to front-end.</p>
 <p>idk what else to put here, so stay with my recursive-descent parser:</p>
 <code class="lang-c"><code class="codeblock"><span class="hl-comment">// Top-level declarations</span>
 <span class="hl-keyword">static</span> <span class="hl-keyword">double</span> <span class="hl-func">parse_add</span>(<span class="hl-keyword">void</span>);
@@ -50,7 +24,7 @@ height: auto;
 
 <span class="hl-comment">// Checks if state is a valid digit</span>
 <span class="hl-keyword">static</span> <span class="hl-keyword">int</span> <span class="hl-func">is_digit</span>(<span class="hl-keyword">void</span>) {
-	<span class="hl-keyword">return</span> <span class="hl-operator">*</span>state <span class="hl-operator">&</span>gt;<span class="hl-operator">=</span> <span class="hl-string">'0'</span> <span class="hl-operator">&</span>amp;<span class="hl-operator">&</span>amp; <span class="hl-operator">*</span>state <span class="hl-operator">&</span>lt;<span class="hl-operator">=</span> <span class="hl-string">'9'</span>;
+	<span class="hl-keyword">return</span> <span class="hl-operator">*</span>state <span class="hl-operator">&gt;</span><span class="hl-operator">=</span> <span class="hl-string">'0'</span> <span class="hl-operator">&amp;</span><span class="hl-operator">&amp;</span> <span class="hl-operator">*</span>state <span class="hl-operator">&lt;</span><span class="hl-operator">=</span> <span class="hl-string">'9'</span>;
 }
 
 <span class="hl-comment">// Get the digit value of state</span>
@@ -163,19 +137,53 @@ height: auto;
 
 	buffer[length] <span class="hl-operator">=</span> <span class="hl-number">0</span>;
 
-	<span class="hl-keyword">if</span> (length <span class="hl-operator">&</span>gt; <span class="hl-number">0</span>)
+	<span class="hl-keyword">if</span> (length <span class="hl-operator">&gt;</span> <span class="hl-number">0</span>)
 		<span class="hl-func">printf</span>(<span class="hl-string">"%f\n"</span>, <span class="hl-func">eval</span>(buffer));
 
 	<span class="hl-keyword">return</span> length;
 }
 
 <span class="hl-keyword">int</span> <span class="hl-func">main</span>() {
-	<span class="hl-keyword">while</span> (<span class="hl-func">eval_line</span>() <span class="hl-operator">&</span>gt; <span class="hl-number">0</span>);
+	<span class="hl-keyword">while</span> (<span class="hl-func">eval_line</span>() <span class="hl-operator">&gt;</span> <span class="hl-number">0</span>);
+	<span class="hl-keyword">return</span> <span class="hl-number">0</span>;
+}</code></code>
+<code class="lang-c"><code class="codeblock"><span class="hl-preprocessor">#include &lt;stdio.h&gt;</span>
+<span class="hl-preprocessor">#include &lt;stdbool.h&gt;</span>
+
+<span class="hl-keyword">enum</span> <span class="hl-type">TestKind</span> { <span class="hl-number">TESTKIND_A</span>, <span class="hl-number">TESTKIND_B</span>, <span class="hl-number">TESTKIND_C</span> };
+<span class="hl-keyword">union</span> <span class="hl-type">TestFields</span> {
+	<span class="hl-keyword">int</span> field_a;
+	<span class="hl-type">float32</span> field_b;
+	<span class="hl-type">uint64</span> field_c;
+};
+<span class="hl-keyword">struct</span> <span class="hl-type">Test</span> {
+	<span class="hl-keyword">enum</span> <span class="hl-type">TestKind</span> kind;
+	<span class="hl-keyword">union</span> <span class="hl-type">TestFields</span> fields;
+};
+
+<span class="hl-keyword">int</span> <span class="hl-func">main</span>() {
+	<span class="hl-func">printf</span>(<span class="hl-string">"Hello, World!\n"</span>);
+
+	<span class="hl-keyword">struct</span> <span class="hl-type">Test</span> my_test <span class="hl-operator">=</span> {
+		<span class="hl-operator">.</span>kind <span class="hl-operator">=</span> <span class="hl-number">TESTKIND_C</span>,
+		<span class="hl-operator">.</span>fields <span class="hl-operator">=</span> {
+			<span class="hl-operator">.</span>field_c <span class="hl-operator">=</span> <span class="hl-number">true</span>
+		}
+	};
+
 	<span class="hl-keyword">return</span> <span class="hl-number">0</span>;
 }</code></code>
 </div>
 <div class="column">
-<p>here is my cat, her name is Mih!</p>
+<h3>Links</h3>
+<div class="row">
+<div class="column"><a href="https://github.com/oluigipo">Github</a></div>
+<div class="column"><a href="https://twitter.com/lujaire">Twitter</a></div>
+<div class="column"><a href="mailto:contact@ljre.cc">Contact (Email)</a></div>
+<div class="column"><a href="https://br.linkedin.com/in/luigi-benedetti">Linkedin</a></div>
+</div>
+<h3>my cat</h3>
+<p>she's so silly</p>
 <img src="assets/mih.jpg" id="mihhh"/>
 </div>
 <div class="column">
