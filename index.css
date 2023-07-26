@@ -1,0 +1,81 @@
+body {
+	background-color: rgb(24,24,24);
+	color: rgb(255,255,255);
+	font-family: Verdana, sans-serif;
+	
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
+}
+
+div {
+	text-align: left;
+}
+
+p {
+	line-height: 18pt;
+	margin-top: 0px;
+}
+
+ul {
+	padding-inline-start: 20px;
+	margin: 0px;
+	margin-bottom: 20px;
+}
+
+li {
+	padding: 5px;
+	line-height: 18pt;
+}
+
+.codeblock {
+	background-color: rgb(10,10,10);
+	font-family: "Lucida Console", monospace;
+	border-radius: 10px;
+	border: 0px;
+	padding: 20px;
+	display: inline-block;
+	white-space: pre;
+	line-height: 16pt;
+	color: #cccccc;
+	text-align: left;
+	tab-size: 4;
+	margin-bottom: 16px;
+}
+
+.inlinecode {
+	padding: 2px;
+	padding-bottom: 0px;
+	line-height: auto;
+	border-radius: 4px;
+	display: inline-block;
+	white-space: pre;
+	color: #cccccc;
+	text-align: left;
+	tab-size: 4;
+	background-color: rgb(10,10,10);
+	font-family: "Lucida Console", monospace;
+	line-height: 16pt;
+}
+
+.column {
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
+	width: 50%;
+}
+
+.blogindex {
+	background-color: rgb(10,10,10);
+	border-radius: 10px;
+	padding: 5px;
+}
+
+.hl-keyword { color: #ff4cf3; }
+.hl-preprocessor { color: #dab98f; }
+.hl-operator { color: #dc7575; }
+.hl-type { color: #00dd7a; }
+.hl-string { color: #e2e276; }
+.hl-number { color: #ffb165; }
+.hl-func { color: #00D2DD; }
+.hl-comment { color: #7D7D7D; }

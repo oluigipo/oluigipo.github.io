@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<!-- I'm not hiring if that's what you are looking for. -->
+
+<head>
+	<title>Writing a simple blog website</title>
+	<meta charset="UTF-8"/>
+	<link rel="shortcut icon" type="image/png" href="/favicon.ico">
+	<link rel="stylesheet" href="/index.css">
+	<style>
+		
+	</style>
+</head>
+<body>
+	<div class="column">
+		<p><a href="/blog">&lt; Back</a></p>
+<h1>Writing a simple blog website</h1><p>But why? I never liked UI programming, not even talking about webdev, though since I'm done with school and might need to find a job if I'm unable to begin uni, it's good to add more stuff to my portfolio. </p><p>Most stuff I do nowadays is to experiment and learn. I haven't done a "real project" for quite some time now. So this will be my place to write down stuff I've been doing -- problems, design decisions, trying to explain concepts, etc. </p><h1>My "webstack"</h1><p>I want to keep it as simple as possible. The need to preprocess HTML -- add a "compilation" stage -- was clear from the very beginning though. I still want to have nice syntax highlighting, write this blog entry in markdown, etc. Just plain HTML5 and CSS would just be too painful. So, with that, I defined some requirements for my "build system": </p><ul><li>A simple script that will just pick all the needed files and write the finished website in a <code class="inlinecode">build</code> directory;</li><li>Of course we'll have images. A <code class="inlinecode">included</code> folder to simply put every raw content that will be simply copied to our <code class="inlinecode">build</code> directory is enough for that;</li><li>To insert the more "dynamic" stuff into my pages, I'll need a sort of <code class="inlinecode">&lt;PP command arg0="value" arg1="value"/&gt;</code> custom tag to insert stuff like codeblocks for automatic highlighting;</li><li>A markdown to HTML tags converter.</li></ul><p>At the end of the day, all of this was accomplished with a simple 300 line Typescript file. I choose Typescript because I like to have my types strictly defined and also because Deno can run it as-is. This is not including the <code class="inlinecode">hl.js</code> thingy I wrote some time ago to highlight C code. Converting it to typescript didn't take even 5 minutes. </p><p>So, if you want a "list" of my webstack, it is: </p><ul><li>Deno (compilation);</li><li>nothing else, we just generate plain HTML+CSS files.</li></ul><h1>Metadata</h1><p>I of course want to add some metadata to my blog entries. Since I'm writing my own markdown parser, it was pretty easy. My solution is to just have a bunch of <code class="inlinecode">@@name value</code> in the beginning of my <code class="inlinecode">.md</code> files. It goes like this: </p><code class="codeblock">@@version 1
+@@title Hello, World!
+@@date 2022-12-22
+
+# This is a &lt;h1&gt; tag
+this is a paragraph.
+
+more stuff.</code><p>Note the <code class="inlinecode">@@version 1</code> line: if I go forward with this, I surely will end up making breaking changes to this custom markdown file, so having a simple directive to say which version of the parser to use might save a bit of time in the future. </p><p>That's about it. Now I'll implement some other markdown features I have used in this entry. </p><p>UPDATE: Implementing codeblocks, inline codeblock, and lists took extra 63 lines of code. A total of 363 lines for <code class="inlinecode">build.ts</code>! Amazingly few for such a useful tool. </p>
+	</div>
+</body>
