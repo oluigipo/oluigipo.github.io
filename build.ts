@@ -1,3 +1,4 @@
+import * as Common from "./common.ts";
 import Highlight from "./build_highlight.ts";
 
 const outputDir = "./build/";
@@ -69,7 +70,7 @@ function writeFile(path: string, contents: string) {
 	Deno.writeFile(path, data);
 }
 
-async function readFileFromUrl(url: string): string {
+async function readFileFromUrl(url: string): Promise<string> {
 	// console.log(url);
 	const response = await fetch(url);
 	if (response.status !== 200) {
@@ -95,7 +96,7 @@ function readBlogDir(): string[] {
 	return result;
 }
 
-async function preprocessHtml(contents: string): string {
+async function preprocessHtml(contents: string): Promise<string> {
 	let result = "";
 	const lines = contents.split("\n");
 	
@@ -130,7 +131,7 @@ async function preprocessHtml(contents: string): string {
 				let lastLinebreak = result.lastIndexOf("\n");
 				result = result.slice(0, lastLinebreak);
 				
-				result += makeCodeBlock(sanitizeRawTextForHtml(code), parts.lang);
+				result += makeCodeBlock(code, parts.lang);
 			} break;
 			
 			case "blogindex": {
@@ -201,7 +202,7 @@ function parsePreprocParts(parts: string[]): Parts {
 	return result;
 }
 
-function hasHighlightFor<T extends string>(name: T): T is keyof typeof Highlight {
+function hasHighlightFor<T extends string>(name: T): boolean {
 	return Highlight[<any>name] !== undefined;
 }
 
@@ -282,7 +283,7 @@ function parseBlogEntry(rawContent: string, baseName: string): Blog {
 		if (line.startsWith("# ")) {
 			flushParagraph();
 			
-			const value = sanitizeRawTextForHtml(line.slice(2));
+			const value = Common.sanitizeRawTextForHtml(line.slice(2));
 			result.content += "<h1>" + value + "</h1>";
 			
 			continue;
@@ -313,7 +314,7 @@ function parseBlogEntry(rawContent: string, baseName: string): Blog {
 				if (line.startsWith("```"))
 					break;
 				
-				code += sanitizeRawTextForHtml(line) + "\n";
+				code += Common.sanitizeRawTextForHtml(line) + "\n";
 			}
 			
 			result.content += makeCodeBlock(code, lang);
@@ -329,7 +330,7 @@ function parseBlogEntry(rawContent: string, baseName: string): Blog {
 }
 
 function processSimpleParagraph(str: string): string {
-	let result = sanitizeRawTextForHtml(str);
+	let result = Common.sanitizeRawTextForHtml(str);
 	
 	const italicRegex = /\*(\\\*|[^\*])+\*/g;
 	const inlinecodeRegex = /`((\\`)|[^`])+`/g;
@@ -378,12 +379,4 @@ function makeCodeBlock(code: string, lang?: string): string {
 	}
 	
 	return "<code class=\"codeblock\">" + code.trim() + "</code>";
-}
-
-function sanitizeRawTextForHtml(str: string): string {
-	return (str
-		.trim()
-		.replace(/\&/g, "&amp;")
-		.replace(/\</g, "&lt;")
-		.replace(/\>/g, "&gt;"));
 }

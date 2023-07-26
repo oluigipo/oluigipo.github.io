@@ -1,6 +1,4 @@
-function giveABath(str: string): string {
-	return str.replace(/\</g, '&lt;').replace(/\>/g, '&gt;');
-}
+import * as Common from "./common.ts";
 
 function charIsLetter(c: string): boolean {
 	c = c.toUpperCase();
@@ -126,7 +124,7 @@ export default {
 				const token = tokens[i];
 
 				function withTag(clazz) {
-					return `<span class="${clazz}">${giveABath(token.value)}</span>`;
+					return `<span class="${clazz}">${Common.sanitizeRawTextForHtml(token.value)}</span>`;
 				}
 
 				function previousRelevant() {
@@ -202,7 +200,7 @@ export default {
 		for (let i = 0; i < lines.length; ++i) {
 			let line = lines[i];
 			if (line[0] == '#') {
-				line = giveABath(line);
+				line = Common.sanitizeRawTextForHtml(line);
 				result += `<span class="hl-preprocessor">${line}</span>\n`;
 				continue;
 			}
